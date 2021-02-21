@@ -27,7 +27,7 @@ cd Nim-Game
 ```
 
 ## Usage
-###GUI
+### GUI
 Go inside the working directory and run `gui_nim.py` with python:
 ```bash
 python gui_nim.py
@@ -36,7 +36,7 @@ Wait for a few seconds and GUI should pop up.
 
 ![Gui Picture](docpic_gui.png)
 
-###CLI
+### CLI
 Go inside the working directory and run `nim.py` with python:
 ```bash
 python nim.py
