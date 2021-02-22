@@ -130,7 +130,8 @@ class Toolbar(tk.Frame):
 
     @staticmethod
     def show_instructions():
-        toplevel = tk.Toplevel(bg='#e0e038')
+        BACKGROUND_COLOR = '#5ef7ff'
+        toplevel = tk.Toplevel(bg=BACKGROUND_COLOR)
         toplevel.title('Instructions')
         instructions_text = ("Instructions:\n" +
                              "There is 1 or more stacks of sticks.\n" +
@@ -139,7 +140,7 @@ class Toolbar(tk.Frame):
                              "In a normal game, the last player to move wins the game\n" +
                              "In a misère game, the last player to move loses the game.")
         instruction_font = ('', 12, 'bold')
-        instructions_label = tk.Label(toplevel, font=instruction_font, bg='#e0e038', justify='left',
+        instructions_label = tk.Label(toplevel, font=instruction_font, bg=BACKGROUND_COLOR, justify='left',
                                       text=instructions_text)
         instructions_label.pack()
         toplevel.mainloop()
@@ -285,11 +286,12 @@ class LabelFrame(tk.Frame):
         font_second = ("newspaper", 12)
         font_third = ("newspaper", 9)
 
-        label_latest = tk.Label(self, textvariable=self.textvar_latest, font=font_latest, bg='#e0e038', fg='red')
+        BACKGROUND_COLOR = '#5ef7ff'
+        label_latest = tk.Label(self, textvariable=self.textvar_latest, font=font_latest, bg=BACKGROUND_COLOR, fg='red')
         label_latest.pack(side='bottom')
-        label_second = tk.Label(self, textvariable=self.textvar_second, font=font_second, bg='#e0e038')
+        label_second = tk.Label(self, textvariable=self.textvar_second, font=font_second, bg=BACKGROUND_COLOR)
         label_second.pack(side='bottom')
-        label_third = tk.Label(self, textvariable=self.textvar_third, font=font_third, bg='#e0e038')
+        label_third = tk.Label(self, textvariable=self.textvar_third, font=font_third, bg=BACKGROUND_COLOR)
         label_third.pack(side='bottom')
 
     def print2label(self, message):
@@ -322,11 +324,12 @@ class MainApplication(tk.Tk):
 
         self.title('Nim')
         self.resizable(False, False)
-        self.configure(bg='#e0e038')
+        BACKGROUND_COLOR = '#5ef7ff'
+        self.configure(bg=BACKGROUND_COLOR)
 
-        self.toolbar = Toolbar(self, bg='#e0e038')
-        self.board = Gameboard(self, bg='#e0e038')
-        self.text = LabelFrame(self, bg='#e0e038')
+        self.toolbar = Toolbar(self, bg=BACKGROUND_COLOR)
+        self.board = Gameboard(self, bg=BACKGROUND_COLOR)
+        self.text = LabelFrame(self, bg=BACKGROUND_COLOR)
 
         self.toolbar.place(rely=0.05, relwidth=1, relheight=0.1)
         self.board.place(rely=0.2, relwidth=1, relheight=0.5)
