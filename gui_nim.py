@@ -96,11 +96,11 @@ class Toolbar(tk.Frame):
         tk.Frame.__init__(self, parent, *args, **kwargs)
         self.parent = parent
 
-        self.image_gear = Image.open('gear.png').resize((20, 20), Image.ANTIALIAS)
+        self.image_gear = Image.open('images/gear.png').resize((20, 20), Image.ANTIALIAS)
         self.image_gear = ImageTk.PhotoImage(self.image_gear)
-        self.image_qmark = Image.open('qmark.png').resize((20, 20), Image.ANTIALIAS)
+        self.image_qmark = Image.open('images/qmark.png').resize((20, 20), Image.ANTIALIAS)
         self.image_qmark = ImageTk.PhotoImage(self.image_qmark)
-        self.image_restart = Image.open('restart.png').resize((20, 20), Image.ANTIALIAS)
+        self.image_restart = Image.open('images/restart.png').resize((20, 20), Image.ANTIALIAS)
         self.image_restart = ImageTk.PhotoImage(self.image_restart)
 
         self.button_option = tk.Button(self, image=self.image_gear)
@@ -152,11 +152,11 @@ class Gameboard(tk.Frame):
         self.gameboard = dict()
         self.stick_height = 180 * 3 // 4
         self.stick_width = 112 // 2
-        self.image_stick = Image.open('stick.png').resize((self.stick_width, self.stick_height), Image.ANTIALIAS)
+        self.image_stick = Image.open('images/stick.png').resize((self.stick_width, self.stick_height), Image.ANTIALIAS)
         self.image_stick = ImageTk.PhotoImage(self.image_stick)
-        self.image_sb1 = Image.open('stickbreak1.png').resize((self.stick_width, self.stick_height), Image.ANTIALIAS)
+        self.image_sb1 = Image.open('images/stickbreak1.png').resize((self.stick_width, self.stick_height), Image.ANTIALIAS)
         self.image_stickbreak1 = ImageTk.PhotoImage(self.image_sb1)
-        self.image_sb2 = Image.open('stickbreak2.png').resize((self.stick_width, self.stick_height), Image.ANTIALIAS)
+        self.image_sb2 = Image.open('images/stickbreak2.png').resize((self.stick_width, self.stick_height), Image.ANTIALIAS)
         self.image_stickbreak2 = ImageTk.PhotoImage(self.image_sb2)
         self.show_board()
 

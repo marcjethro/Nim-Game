@@ -34,7 +34,7 @@ python gui_nim.py
 ```
 Wait for a few seconds and GUI should pop up.
 
-![Gui Picture](docpic_gui.png)
+![Gui Picture](images/docpic_gui.png)
 
 ### CLI
 Go inside the working directory and run `nim.py` with python:
