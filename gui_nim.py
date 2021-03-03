@@ -16,10 +16,10 @@ class OptionsWindow(tk.Toplevel):
         self.protocol('WM_DELETE_WINDOW', protocol_close)
         self.resizable(width=False, height=False)
 
-        opt_pildi_gana = tk.BooleanVar()
+        opt_misere = tk.BooleanVar()
         label_opt_pildigana = tk.Label(self, text="Misère Game?")
-        radio_yes = tk.Radiobutton(self, text='Yes', variable=opt_pildi_gana, value=True)
-        radio_no = tk.Radiobutton(self, text='No', variable=opt_pildi_gana, value=False)
+        radio_yes = tk.Radiobutton(self, text='Yes', variable=opt_misere, value=True)
+        radio_no = tk.Radiobutton(self, text='No', variable=opt_misere, value=False)
         label_opt_pildigana.grid(column=0, row=0, sticky="w", pady=3)
         radio_yes.grid(column=1, row=0, columnspan=2, sticky="w")
         radio_no.grid(column=3, row=0, columnspan=2, sticky="w")
@@ -73,7 +73,7 @@ class OptionsWindow(tk.Toplevel):
 
         def command_save():
             self.parent.parent.ai = opt_ai.get()
-            self.parent.parent.pildi_gana = opt_pildi_gana.get()
+            self.parent.parent.misere = opt_misere.get()
             self.parent.parent.gamesize = opt_gamesize.get()
             self.parent.parent.human_player = opt_human_player.get()
             for button in self.parent.parent.board.gameboard.values():
@@ -88,7 +88,7 @@ class OptionsWindow(tk.Toplevel):
         opt_ai.set(self.parent.parent.ai)
         opt_gamesize.set(self.parent.parent.gamesize)
         opt_human_player.set(self.parent.parent.human_player)
-        opt_pildi_gana.set(self.parent.parent.pildi_gana)
+        opt_misere.set(self.parent.parent.misere)
 
 
 class Toolbar(tk.Frame):
@@ -125,7 +125,7 @@ class Toolbar(tk.Frame):
             with_these = [board.enter_handler_wrapper, board.leave_handler_wrapper, board.click_handler_wrapper]
             for event, handler in zip(bind_these, with_these):
                 button.bind(event, handler(name))
-        parent.game = nim.Game(parent.gamesize, parent.ai, parent.human_player, parent.pildi_gana)
+        parent.game = nim.Game(parent.gamesize, parent.ai, parent.human_player, parent.misere)
         parent.after(100, parent.text.init_labels)
 
     @staticmethod
@@ -226,10 +226,10 @@ class Gameboard(tk.Frame):
             if self.parent.game.win():
                 if not self.parent.ai:
                     win_message = f"PLAYER {1 if self.parent.game.player == 2 else 2} WINS!" \
-                        if self.parent.pildi_gana else f"PLAYER {self.parent.game.player} WINS!"
+                        if self.parent.misere else f"PLAYER {self.parent.game.player} WINS!"
                 else:
                     win_message = f"AI WINS!" \
-                        if self.parent.pildi_gana == (self.parent.game.player == self.parent.human_player) \
+                        if self.parent.misere == (self.parent.game.player == self.parent.human_player) \
                         else f"PLAYER {self.parent.human_player} WINS!"
                 self.parent.text.print2label(win_message)
             elif self.parent.ai and self.parent.game.player == self.parent.human_player:
@@ -319,8 +319,8 @@ class MainApplication(tk.Tk):
         self.gamesize = 5
         self.ai = True
         self.human_player = 1
-        self.pildi_gana = False
-        self.game = nim.Game(self.gamesize, self.ai, self.human_player, self.pildi_gana)
+        self.misere = False
+        self.game = nim.Game(self.gamesize, self.ai, self.human_player, self.misere)
 
         self.title('Nim')
         self.resizable(False, False)
