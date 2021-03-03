@@ -1,5 +1,5 @@
 class Game:
-    def __init__(self, size=5, ai=False, human_player=1, pildi_gana=False):
+    def __init__(self, size=5, ai=False, human_player=1, misere=False):
         self.ai = ai
         if size < 3:
             raise ValueError("Size is too small")
@@ -9,7 +9,7 @@ class Game:
             self.board[j] = 0
         self.player = 1
         self.human_player = human_player
-        self.pildi_gana = pildi_gana
+        self.misere = misere
 
     def play(self):
         while True:
@@ -30,7 +30,7 @@ class Game:
                 continue
             if self.win():
                 print(self.show_game())
-                print(f'Player {1 if self.player == 2 else 2} wins!' if self.pildi_gana
+                print(f'Player {1 if self.player == 2 else 2} wins!' if self.misere
                       else f'Player {self.player} wins!')
                 self.board = {}
                 for j in range(3, self.size + 1):
@@ -101,14 +101,14 @@ class Game:
         return tuple(int(x) for x in best_move)
 
     def options(self, ai=True):
-        simulation = Game(size=self.size, pildi_gana=self.pildi_gana)
+        simulation = Game(size=self.size, misere=self.misere)
         simulation.board = self.board.copy()
         options = simulation.look_for_options()
         for option in options:
             simulation.board = self.board.copy()
             simulation.x_a_stack(*tuple(int(x) for x in option))
             if simulation.win():
-                if (self.pildi_gana and ai) or (not self.pildi_gana and not ai):
+                if (self.misere and ai) or (not self.misere and not ai):
                     options[option] = -100
                 else:
                     options[option] = 100
@@ -122,5 +122,70 @@ class Game:
 
 
 if __name__ == '__main__':
-    start = Game(4, ai=True, human_player=2, pildi_gana=True)
-    start.play()
+    option_game_size = 3
+    option_ai = False
+    option_human_player = 1
+    option_misere = False
+
+    while True:
+        while True:
+            try:
+                print("")
+                option_game_size = int(input("Enter game size from 3 to 6:"))
+                if 3 <= option_game_size <= 6:
+                    break
+                else:
+                    print("Number must be between 3 and 6")
+                    continue
+            except ValueError:
+                print("Enter a number!")
+                continue
+
+        while True:
+            print("")
+            option_ai = input("Play with ai? (y/n)")
+            if option_ai == "y":
+                option_ai = True
+                while True:
+                    try:
+                        print("")
+                        option_human_player = int(input("Play as player 1 or 2? (1/2)"))
+                        if option_human_player in {1, 2}:
+                            break
+                        else:
+                            print("Enter either 1 or 2!")
+                            continue
+                    except ValueError:
+                        print("Enter either 1 or 2!")
+                        continue
+                break
+            elif option_ai == "n":
+                option_ai = False
+                break
+            else:
+                print("Enter either 'y' or 'n'")
+
+        while True:
+            print("")
+            option_misere = input("Play a misere game? (Last to move loses) (y/n)")
+            if option_misere == "y":
+                option_misere = True
+                break
+            elif option_misere == "n":
+                option_misere = False
+                break
+            else:
+                print("Enter either 'y' or 'n'")
+
+        print("")
+        start = Game(option_game_size, ai=option_ai, human_player=option_human_player, misere=option_misere)
+        start.play()
+        while True:
+            print("")
+            play_again = input("Play again? (y/n)")
+            if play_again == "y":
+                break
+            elif play_again == "n":
+                exit()
+            else:
+                print("Enter either 'y' or 'n'")
