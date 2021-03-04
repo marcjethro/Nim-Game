@@ -32,7 +32,7 @@ Go inside the working directory and run `gui_nim.py` with python:
 ```bash
 python gui_nim.py
 ```
-Wait for a few seconds and GUI should pop up.
+Wait for a few seconds and a GUI should pop up.
 
 ![Gui Picture](images/docpic_gui.png)
 
@@ -41,6 +41,9 @@ Go inside the working directory and run `nim.py` with python:
 ```bash
 python nim.py
 ```
+Wait for a few seconds and the CLI should pop up.
+
+![Cli Picture](images/docpic_cli.png)
 
 ## Contributing
 Any and all feedback is welcome.
