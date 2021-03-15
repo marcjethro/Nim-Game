@@ -9,6 +9,7 @@ class OptionsWindow(tk.Toplevel):
         tk.Toplevel.__init__(self, parent, *args, **kwargs)
         self.parent = parent
         self.title('Options')
+
         def protocol_close():
             self.parent.button_option.configure(state='normal')
             self.destroy()
@@ -135,7 +136,7 @@ class Toolbar(tk.Frame):
         toplevel.title('Instructions')
         instructions_text = ("Instructions:\n" +
                              "There is 1 or more stacks of sticks.\n" +
-                             "2 Players take turns breaking any ammount of sticks in a single stack.\n" +
+                             "2 Players take turns breaking any amount of sticks in a single stack.\n" +
                              "The game ends when the last stick is broken.\n" +
                              "In a normal game, the last player to move wins the game\n" +
                              "In a misère game, the last player to move loses the game.")
