@@ -10,16 +10,16 @@ Nim is a mathematical game of strategy in which two players take turns removing 
 
 ## Installation
 
-Make sure you have [git](https://github.com/git-guides/install-git) and [Python 3](https://www.python.org/downloads/) installed,
+Make sure you have [Python 3](https://www.python.org/downloads/) installed,
 
-Install [pillow](https://pypi.org/project/Pillow/) (use [venv](https://docs.python.org/3/tutorial/venv.html) if desired):
-
+If you haven't already, install [pillow](https://pypi.org/project/Pillow/)
 ```bash
 python -m pip install pip
 python -m pip install pillow
 ```
+Download the zip file in this repo and extract
 
-then clone this repo using the terminal:
+Or If you have [git](https://github.com/git-guides/install-git) installed, then clone this repo:
 
 ```bash
 git clone https://github.com/marcjethro/Nim-Game.git
