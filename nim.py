@@ -1,3 +1,7 @@
+import random
+import shelve
+
+
 class Game:
     def __init__(self, size=5, ai=False, human_player=1, misere=False):
         self.ai = ai
@@ -20,9 +24,7 @@ class Game:
                     if self.player == self.human_player:
                         self.player_input()
                     else:
-                        evaluated_options = self.options()
-                        move = self.best_move(evaluated_options)
-                        self.x_a_stack(*move)
+                        self.x_a_stack(*self.best_move())
                 else:
                     self.player_input()
             except Exception as v:
@@ -65,60 +67,45 @@ class Game:
             show_list.append("".join(string))
         return " ".join(sorted(show_list, key=len, reverse=True))
 
-    def look_for_options(self) -> dict:
-        dict_of_options = {}
+    @staticmethod
+    def sorted_tuple(raw_state):
+        new_state = list(filter(lambda left: True if left != 0 else False, raw_state))
+        return tuple(sorted(new_state))
+
+    def convert_board_to_state(self, board):
+        state = tuple(key - value for key, value in board.items())
+        return self.sorted_tuple(state)
+
+    def look_for_options(self) -> list:
+        list_of_options = []
         for i in range(3, self.size + 1):
             if self.board[i] == i:
                 continue
             for j in range(1, i - self.board[i] + 1):
-                dict_of_options[f"{i}{j}"] = None
-        return dict_of_options
+                list_of_options.append((i, j))
+        return list_of_options
 
-    @staticmethod
-    def minimum_value_of_options(options: dict) -> int:
-        lowest = 101
-        for i in options:
-            if options[i] < lowest:
-                lowest = options[i]
-        return lowest
-
-    @staticmethod
-    def maximum_value_of_options(options: dict) -> int:
-        highest = -101
-        for i in options:
-            if options[i] > highest:
-                highest = options[i]
-        return highest
-
-    @staticmethod
-    def best_move(options: dict) -> tuple:
-        highest = -101
-        best_move = ""
-        for i in options:
-            if options[i] > highest:
-                best_move = i
-                highest = options[i]
-        return tuple(int(x) for x in best_move)
-
-    def options(self, ai=True):
-        simulation = Game(size=self.size, misere=self.misere)
-        simulation.board = self.board.copy()
-        options = simulation.look_for_options()
-        for option in options:
-            simulation.board = self.board.copy()
-            simulation.x_a_stack(*tuple(int(x) for x in option))
-            if simulation.win():
-                if (self.misere and ai) or (not self.misere and not ai):
-                    options[option] = -100
-                else:
-                    options[option] = 100
-            else:
-                if ai:
-                    options[option] = Game.minimum_value_of_options(simulation.options(False))
-                else:
-                    options[option] = Game.maximum_value_of_options(simulation.options(True))
-        simulation.board = self.board.copy()
-        return options
+    def best_move(self) -> tuple:
+        mode = "misere" if self.misere else "normal"
+        with shelve.open("memory") as memory:
+            memory_table = memory[mode]
+        if not memory_table[self.convert_board_to_state(self.board)]:
+            while True:
+                random_stack = random.choice(list(self.board.keys()))
+                if self.board[random_stack] == random_stack:
+                    continue
+                return random_stack, 1
+        biggest_take = 0
+        for option in self.look_for_options():
+            board_copy = self.board.copy()
+            board_copy[option[0]] += option[1]
+            new_state = self.convert_board_to_state(board_copy)
+            if memory_table[new_state]:
+                continue
+            if option[1] > biggest_take:
+                best_option = option
+                biggest_take = option[1]
+        return best_option
 
 
 if __name__ == '__main__':
