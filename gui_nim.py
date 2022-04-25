@@ -49,29 +49,6 @@ class OptionsWindow(tk.Toplevel):
             radio_sizes[n] = tk.Radiobutton(self, text=f"{n}", value=n, variable=opt_gamesize)
             radio_sizes[n].grid(column=n - 2, row=3, sticky="w")
 
-        # For incompatible radios
-        def command_radio_able(enable_radio_list=(), disable_radio_list=()):
-            def command():
-                for r in enable_radio_list:
-                    r.configure(state='normal')
-                for r in disable_radio_list:
-                    r.configure(state='disabled')
-            return command
-
-        radio_ai_player1.configure(state='normal' if self.parent.parent.ai else 'disabled')
-        radio_ai_player2.configure(state='normal' if self.parent.parent.ai else 'disabled')
-        radio_sizes[6].configure(state='normal' if not self.parent.parent.ai else 'disabled')
-        radio_ai_true.configure(state='normal' if not self.parent.parent.gamesize == 6 else 'disabled')
-
-        ai_enable_these = [radio_ai_player1, radio_ai_player2]
-        ai_disable_these = [radio_sizes[6]]
-        radio_ai_true.configure(command=command_radio_able(ai_enable_these, ai_disable_these))
-        radio_ai_false.configure(command=command_radio_able(ai_disable_these, ai_enable_these))
-
-        for radio in radio_sizes.values():
-            radio.configure(command=command_radio_able([radio_ai_true]))
-        radio_sizes[6].configure(command=command_radio_able(disable_radio_list=[radio_ai_true]))
-
         def command_save():
             self.parent.parent.ai = opt_ai.get()
             self.parent.parent.misere = opt_misere.get()
@@ -179,8 +156,7 @@ class Gameboard(tk.Frame):
         self.parent.text.print2label(f"AI's Turn...")
         self.parent.update_idletasks()
         sleep(0.5)
-        evaluated_options = self.parent.game.options()
-        move = self.parent.game.best_move(evaluated_options)
+        move = self.parent.game.best_move()
         self.parent.update()
         for name, btn in temp_dsbld_btns:
             btn.bind('<Enter>', self.enter_handler_wrapper(name))
